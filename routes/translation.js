@@ -42,7 +42,7 @@ app.get('/getTranslation', (req, res, next) => {
         msg: 'Success',
 })
 }
-  }
+}
 );
 });
 app.post('/getTranslationById', (req, res, next) => {
@@ -53,6 +53,7 @@ app.post('/getTranslationById', (req, res, next) => {
   ,s.modification_date
   ,s.translation_id
   ,s.is_html_text
+  ,s.english_value
   ,s.show_to_user
   ,s.group_name
   ,s.flag
@@ -83,6 +84,7 @@ app.post('/editTranslation', (req, res, next) => {
             ,value=${db.escape(req.body.value)}
             ,is_html_text=${db.escape(req.body.is_html_text)}
             ,show_to_user=${db.escape(req.body.show_to_user)}
+            ,english_value=${db.escape(req.body.english_value)}
             ,group_name=${db.escape(req.body.group_name)}
             ,flag=${db.escape(req.body.flag)}
             ,modification_date=${db.escape(new Date().toISOString())}
@@ -159,6 +161,24 @@ app.post('/deleteTranslation', (req, res, next) => {
 
 app.get('/getTranslationForCompany', (req, res, next) => {
   db.query(`SELECT t.value,t.key_text  FROM translation t WHERE key_text LIKE 'cm%'`,
+  (err, result) => {
+    if (err) {
+      console.log('error: ', err)
+      return res.status(400).send({
+        data: err,
+        msg: 'failed',
+      })
+    } else {
+      return res.status(200).send({
+        data: result,
+        msg: 'Success',
+})
+}
+  }
+);
+});
+app.get('/getTranslationEnglish', (req, res, next) => {
+  db.query(`SELECT t.english_value,t.key_text  FROM translation t WHERE key_text LIKE 'cm%'`,
   (err, result) => {
     if (err) {
       console.log('error: ', err)

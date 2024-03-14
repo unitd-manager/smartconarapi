@@ -22,11 +22,13 @@ app.get('/getClients', (req, res, next) => {
   ,c.phone
   ,c.status
   ,c.website
+  ,c.website_arb
   ,c.email
   ,c.status
   ,c.fax
   ,c.flag
   ,c.address_flat
+  ,c.company_name_arb
   ,c.address_street
   ,c.address_country
   ,c.address_po_code
@@ -105,6 +107,8 @@ app.post('/getClientsById', (req, res, next) => {
   ,c.address_flat
   ,c.address_street
   ,c.address_country
+  ,c.company_name_arb
+  ,c.website_arb
   ,c.address_po_code
   ,c.retention
   ,c.creation_date
@@ -157,8 +161,10 @@ app.post('/getContactByCompanyId', (req, res, next) => {
 app.post('/editClients', (req, res, next) => {
   db.query(`UPDATE company
             SET company_name=${db.escape(req.body.company_name)}
+            ,company_name_arb=${db.escape(req.body.company_name_arb)}
             ,phone=${db.escape(req.body.phone)}
             ,website=${db.escape(req.body.website)}
+            ,website_arb=${db.escape(req.body.website_arb)}
             ,email=${db.escape(req.body.email)}
             ,modification_date=${db.escape(req.body.modification_date)}
             ,modified_by=${db.escape(req.body.modified_by)}
